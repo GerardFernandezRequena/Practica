@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <link href="static/css/bootstrap.css" rel="stylesheet">
+    <link rel="shortcut icon" href="static/img/favicon.png" type="image/png">
+    <link rel="stylesheet" href="static/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/login.css">
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/jquery-3.6.0.min.js"></script>
+    <script src="static/js/jquery.cookie.js"></script>
+    <script src="static/js/login.js"></script>
+    <script src="static/js/md5.js"></script>
+    <script src="static/js/parseUri.js"></script>
+    <script src="static/js/lib.js"></script>
+    <script src="static/js/alerts.js"></script>
+    <script src="static/js/ldap.js"></script>
+</head>
+
+<body>
+    <img class="logo" src="static/img/logo.png" alt="logo" style="display: block; margin-left: auto; margin-right: auto;margin-top: 5%;">
+    <div class="container-contact100" style="display:flex; margin-top: -10%; margin-bottom: -10%;">
+        <div id="divLogin" class="wrap-contact100 borderLogin">
+            <form id="login" class="contact100-form">
+                <span class="contact100-form-title">Iniciar Sessió</span>
+
+                <div class="wrap-input100">
+                    <span class="label-input100">Les teves credencials</span>
+                    <input class="input100" type="text" name="email" id="email" placeholder="👤 Credencials ..." required>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100">
+                    <span class="label-input100">Contrasenya</span>
+                    <input class="input100" type="password" name="passwd" id="passwd" placeholder="🔒 Contrasenya ..." required>
+                    <span class="focus-input100"></span>
+                </div>
+                <a style="text-decoration: none;" class="aLogin ldapRemove" href="#" onclick="viewMailRecovery();">No me'n recordo de les meves credencials.</a>
+                <div class="container-contact100-form-btn" id="ldapBtn">
+                    <div class="wrap-contact100-form-btn">
+                        <div class="contact100-form-bgbtn"></div>
+                        <button id="submitLoginBtn" type="submit" class="contact100-form-btn">
+							<span>Entrar</span>
+						</button>
+                    </div>
+                </div>
+            </form>
+            <strong><span id="span" class="text-danger mt-2"></span></strong>
+        </div>
+        <div id="enterMail" class="wrap-contact100 borderLogin">
+            <form id="changePasswordandEmail" class="contact100-form">
+                <button class="cerrar"><i class="fas fa-times cross" onclick="viewMailRecovery();"></i></button>
+                <span class="contact100-form-title">
+                    Recuperar Contrasenya
+            </span>
+                <div class="wrap-input100 validate-input">
+                    <span class="label-input100">El teu Correu</span>
+                    <input class="input100" type="text" name="email2" id="email2" placeholder="📧 Correu electrònic...">
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="container-contact100-form-btn">
+                    <div class="wrap-contact100-form-btn">
+                        <div class="contact100-form-bgbtn"></div>
+                        <button type="submit" class="contact100-form-btn">
+                        <span>Enviar</span>
+                    </button>
+                    </div>
+                </div>
+            </form>
+            <span class="messageSent py-3"></span>
+        </div>
+        <footer class="fixed-bottom">
+            <div class="text-center p-3 text-black-50" id="copy" style="font-size: smaller;">
+                Creat per nlaira © 2022
+            </div>
+        </footer>
+    </div>
+</body>
+
+
+</html>

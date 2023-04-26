@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/all.min.css">
+    <link href="static/css/bootstrap.css" rel="stylesheet">
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <title>Pagina Principal</title>
+    <link rel="shortcut icon" href="./static/img/favicon.png" type="image/jpg">
+    <script src="static/js/jquery-3.6.0.min.js"></script>
+    <script src="static/js/jquery.dataTables.js"></script>
+    <script src="static/js/dataTables.responsive.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="static/css/login.css">
+    <script src="static/js/md5.js"></script>
+    <script src="static/js/jquery.cookie.js"></script>
+    <script src="static/js/lib.js"></script>
+    <script src="static/js/index.js"></script>
+    <script src="static/js/alerts.js"></script>
+    <script src="static/js/ldap.js"></script>
+</head>
+
+<body>
+    <div class="p-4">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a href="/"><img src="../static/img/logo.png" style="width:150px;margin-right:10px;margin-left:10px;" alt="logo"></a>
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" style='position:absolute;left:90%;top:10px'>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav navdisplay">
+                        <li class="nav-item"><a class="nav-link" data-bs-toggle='modal' onclick="loadAuto()" data-bs-target='#selfEdit' href=""><i class="fas fa-user"></i> Perfil</a></li>
+                        <li class="nav-item navHide1"></li>
+                        <li class="nav-item navHide2"></li>
+                        <li class="nav-item"><a class="nav-link" onclick="logout()" href=""><i class="fas fa-sign-out-alt"></i> Sortir</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group dropstart">
+                    <button type="button" class="btn btn-danger text-white dropdown-toggle hideNavBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        Opcions
+                    </button>
+                    <ul class="dropdown-menu hideNavBtn">
+                        <li><a class="dropdown-item hideNavBtn ldapRemove" data-bs-toggle='modal' onclick="loadAuto()" data-bs-target='#selfEdit'><i class="fas fa-user"></i> Perfil</a></li>
+                        <li class="navHide1"></li>
+                        <li class="navHide2"></li>
+                        <li><a class="dropdown-item hideNavBtn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sortir</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <footer class="fixed-bottom">
+        <div class="text-center p-3 text-black-50" id="copy" style="font-size: smaller;">
+            Creat per nlaira © 2022
+        </div>
+    </footer>
+    <!-- Taula Telefons -->
+    <div class="container mt-2">
+        <div class="row pt-3 backgrounTables">
+            <table id="table" class="text-center" style="width: 100%;">
+                <thead class="tableHeader"></thead>
+            </table>
+        </div>
+    </div>
+    <!-- Modal autoeditar-se -->
+    <div class="modal fade" id="selfEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Les Teves Dades</h5>
+                </div>
+                <div class="modal-body form-group">
+                    <div class="form-group mb-3">
+                        <span>Nom: </span>
+                        <input class="form-control" type="text" name="nameModalSelfEdit" id="nameModalSelfEdit" placeholder="👤 Nom ...">
+                    </div>
+                    <div class="form-group mb-3">
+                        <span>Correu Electrònic: </span>
+                        <input class="form-control" type="text" name="emailModalSelfEdit" id="emailModalSelfEdit" placeholder="📧 Correu electrònic ...">
+                    </div>
+                    <div>
+                        <button onclick="check_email()" value="0" class="btn btn-secondary mb-3">Canviar Contrasenya</button>
+
+                    </div>
+                    <span id="messageSended"></span>
+                    <input type="hidden" id="uidModalSelfEdit" name="uidModalSelfEdit">
+                </div>
+                <b class="ml-2" id="errorform3"></b>
+                <div class="modal-footer">
+                    <button type="button" id="closeSelfEditBtn" class="btn btn-secondary" data-bs-dismiss="modal">Tancar</button>
+                    <button type="button" id="selfEditBtn" data-bs-dismiss="" class="btn btn-primary">Desa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal editar Contacte -->
+    <div class="modal fade" id="editList" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Contacte</h5>
+                </div>
+                <div class="modal-body form-group">
+                    <div class="container row">
+                        <div class="col">
+                            <div class="form-group mb-3">
+                                <span>Nom: </span>
+                                <input class="form-control" type="text" name="modalPhone1" id="modalPhone1">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span>Cognoms: </span>
+                                <input class="form-control" type="text" name="modalPhone2" id="modalPhone2">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span>Empresa: </span>
+                                <input class="form-control" type="text" name="modalPhone3" id="modalPhone3">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span>Carrer: </span>
+                                <input class="form-control" type="text" name="modalPhone4" id="modalPhone4">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span>Població: </span>
+                                <input class="form-control" type="text" name="modalPhone5" id="modalPhone5">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span>Codi Postal: </span>
+                                <input class="form-control" type="text" name="modalPhone6" id="modalPhone6">
+                            </div>
+                        </div>
+                        <div class="offset-1 col">
+                            <div class="form-group mb-3">
+                                <span> Telèfon Fix: </span>
+                                <input class="form-control" type="text" name="modalPhone7" id="modalPhone7">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span> Telèfon Mòbil: </span>
+                                <input class="form-control" type="text" name="modalPhone8" id="modalPhone8">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span> Fax: </span>
+                                <input class="form-control" type="text" name="modalPhone8" id="modalPhone9">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span> Correu Electrònic: </span>
+                                <input class="form-control" type="text" name="modalPhone9" id="modalPhone10">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span> NIF: </span>
+                                <input class="form-control" type="text" name="modalPhone10" id="modalPhone11">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="uidModalEdit" name="uidModalEdit">
+                    <span class="error"></span>
+                </div>
+                <b class="ml-2 errorModal"></b>
+                <div class="modal-footer">
+                    <button type="button" id="buttonOpenDelete" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">Eliminar</button>
+                    <button type="button" id="closeEditButton" class="btn btn-secondary" data-bs-dismiss="modal">Tancar</button>
+                    <button type="button" id="editPhoneUser" data-bs-dismiss="" class="btn btn-primary">Desa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal afegir telefon -->
+    <div class="modal fade" id="addNewPhone" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Crear Contacte</h5>
+                </div>
+                <div class="modal-body form-group">
+                    <div class="container row">
+                        <div class="col">
+                            <div class="form-group mb-3">
+                                <span>Nom: </span>
+                                <input class="form-control" type="text" name="modalAddTel1" id="modalAddTel1">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span>Cognoms: </span>
+                                <input class="form-control" type="text" name="modalAddTel2" id="modalAddTel2">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span>Empresa: </span>
+                                <input class="form-control" type="text" name="modalAddTel3" id="modalAddTel3">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span>Carrer: </span>
+                                <input class="form-control" type="text" name="modalAddTel4" id="modalAddTel4">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span>Població: </span>
+                                <input class="form-control" type="text" name="modalAddTel5" id="modalAddTel5">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span>Codi Postal: </span>
+                                <input class="form-control" type="text" name="modalAddTel6" id="modalAddTel6">
+                            </div>
+                        </div>
+                        <div class="offset-1 col">
+                            <div class="form-group mb-3">
+                                <span> Telèfon Fix: </span>
+                                <input class="form-control" type="text" name="modalAddTel7" id="modalAddTel7">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span> Telèfon Mòbil: </span>
+                                <input class="form-control" type="text" name="modalAddTel8" id="modalAddTel8">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span> Fax: </span>
+                                <input class="form-control" type="text" name="modalAddTel9" id="modalAddTel9">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span> Correu Electrònic: </span>
+                                <input class="form-control" type="text" name="modalAddTel10" id="modalAddTel10">
+                            </div>
+                            <div class="form-group mb-3">
+                                <span> NIF: </span>
+                                <input class="form-control" type="text" name="modalAddTel11" id="modalAddTel11">
+                            </div>
+                        </div>
+                        <span class="error"></span>
+                    </div>
+                </div>
+                <b class="ml-2 errorModal"></b>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tancar</button>
+                    <button type="button" id="addUserPhoneSave" class="btn btn-primary">Desa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Eliminar -->
+    <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Eliminar Contacte</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <b>Segur que vols eliminar el contacte?</b>
+                    <h5><b>Aquests canvis seran irreversibles</b></h5>
+                </div>
+                <div class="modal-footer deleteFooter">
+                    <button type="button" id="returnEditPhone" class="btn btn-secondary" data-bs-dismiss="modal">Tornar</button>
+                    <button type="button" id="deletePhoneButton" class="btn btn-outline-primary">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

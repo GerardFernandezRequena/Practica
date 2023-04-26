@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/all.min.css">
+    <link href="static/css/bootstrap.css" rel="stylesheet">
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <title>Taula Sessions</title>
+    <link rel="shortcut icon" href="./static/img/favicon.png" type="image/png">
+    <script src="static/js/jquery-3.6.0.min.js"></script>
+    <script src="static/js/jquery.dataTables.js"></script>
+    <script src="static/js/dataTables.responsive.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="static/css/login.css">
+    <script src="static/js/md5.js"></script>
+    <script src="static/js/jquery.cookie.js"></script>
+    <script src="static/js/lib.js"></script>
+    <script src="static/js/tablasUsrAndLog.js"></script>
+    <script src="static/js/alerts.js"></script>
+</head>
+
+<body>
+    <div class="pt-4">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a href="/"><img src="../static/img/logo.png" style="width:150px;margin-right:10px;margin-left:10px;" alt="logo"></a>
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" style='position:absolute;left:90%;top:10px'>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav navdisplay">
+                        <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home"></i> Inici</a></li>
+                        <li class="nav-item"><a class="nav-link" data-bs-toggle='modal' onclick="loadAuto()" data-bs-target='#selfEdit' href=""><i class="fas fa-user"></i> Perfil</a></li>
+                        <li class="nav-item navHide1"><a class="nav-link tablelogs" onclick="navTaulLog()" href="/registerUsr"><i class="fas fa-file-alt"></i> Registres</a></li>
+                        <li class="nav-item navHide2"><a class="nav-link tableUsers" onclick="navTaulaUsr()" href="/registerUsr"><i class="fas fa-users"></i> Usuaris</a></li>
+                        <li class="nav-item"><a class="nav-link" onclick="logout()" href=""><i class="fas fa-sign-out-alt"></i> Sortir</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group dropstart hideNavBtn">
+                    <button type="button" class="btn btn-danger text-white dropdown-toggle hideNavBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        Opcions
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="nav-item"><a class="dropdown-item" href="/"><i class="fas fa-home"></i> Inici</a></li>
+                        <li><a class="dropdown-item" data-bs-toggle='modal' onclick="loadAuto()" data-bs-target='#selfEdit'><i class="fas fa-user"></i> Perfil</a></li>
+                        <li class="navHide1"><a class="dropdown-item tablelogs" onclick="navTaulLog()" href="/registerUsr"><i class="fas fa-file-alt"></i> Registres</a></li>
+                        <li class="navHide2"><a class="dropdown-item tableUsers" onclick="navTaulaUsr()" href="/registerUsr"><i class="fas fa-users"></i> Usuaris</a></li>
+                        <li><a class="dropdown-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sortir</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- Tabla Log Acciones -->
+    <div class="container" id="table-log-actions">
+        <div class="text-center px-3">
+            <div class="my-4">
+                <div class="col-6 text-start divBtnFilter" style="width: 100%;">
+                    <button class="btn btn-primary" value="Entrada" data-bs-toggle="tooltip" data-bs-placement="left" title="Entrada"><i class="fas fa-sign-in-alt" ></i></button>
+                    <button class="btn btn-primary mx-2" value="Sortida" data-bs-toggle="tooltip" data-bs-placement="top" title="Sortida"><i class="fas fa-sign-out-alt" ></i></button>
+                    <button class="btn btn-primary" value="Cambiar contrasenya" data-bs-toggle="tooltip" data-bs-placement="top" title="Cambiar contrasenya"><i class="fas fa-key" ></i></button>
+                    <button class="btn btn-primary mx-2" value="Usuari editat" data-bs-toggle="tooltip" data-bs-placement="top" title="Usuari editat"><i class="fas fa-pencil-alt" ></i></button>
+                    <button class="btn btn-primary" value="Auto editat" data-bs-toggle="tooltip" data-bs-placement="top" title="Auto editat"><i class="fas fa-user-edit" ></i></button>
+                    <button class="btn btn-primary mx-2" value="Usuari afegit" data-bs-toggle="tooltip" data-bs-placement="top" title="Usuari afegit"><i class="fas fa-user-plus" ></i></button>
+                    <button class="btn btn-primary" value="Telefon editat" data-bs-toggle="tooltip" data-bs-placement="top" title="Telèfon editat"><i class="fas fa-edit" ></i></button>
+                    <button class="btn btn-primary mx-2" value="Telefon afegit" data-bs-toggle="tooltip" data-bs-placement="top" title="Telèfon afegit"><i class="fas fa-address-book"></i></button>
+                    <button class="btn btn-primary" value="Telefon eliminat" data-bs-toggle="tooltip" data-bs-placement="top" title="Telèfon eliminat"><i class="fas fa-phone-slash"></i></button>
+                    <a id="recharge" class="btn btn-primary mx-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Recargar" href="/registerUsr"><i class="fas fa-redo-alt"></i></a>
+                </div>
+            </div>
+            <div class="row pb-3 pt-3 backgrounTables">
+                <table id="table" class="table text-center" style="width: 100%;">
+                    <thead class="tableHeader"></thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Tabla Usuarios -->
+    <div class="container mt-5" id="users-table" style="display: none">
+        <div class="row py-3 backgrounTables">
+            <table id="table2" class="text-center" style="width: 100%;">
+                <thead class="tableHeader"></thead>
+            </table>
+        </div>
+    </div>
+    <!-- Modal afegir usuari -->
+    <div class="modal fade" id="addUser" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Afegir Nou Usuari</h5>
+                </div>
+                <div class="modal-body form-group">
+                    <div class="form-group mb-3">
+                        <span>Nom: </span>
+                        <input class="form-control" type="text" name="modalname" id="modalname" placeholder="👤 Nom usuari ...">
+                    </div>
+                    <div class="form-group mb-3">
+                        <span>Contrasenya: </span>
+                        <input class="form-control" type="password" name="passModal" id="passModal" placeholder="🔒 Contrasenya usuari ...">
+                    </div>
+                    <div class="form-group mb-3">
+                        <span>Tornar a escriure la contrasenya: </span>
+                        <input class="form-control" type="password" name="rePassModal" id="rePassModal" placeholder="🔒 Torna a escriure la contrasenya  ...">
+                        <b id="error"></b>
+                    </div>
+                    <div class=" form-group mb-3 ">
+                        <span>Correu electrònic: </span>
+                        <input class="form-control" type="text" name="mailModal" id="mailModal" placeholder="📧 Correu electrònic usuari ... ">
+                    </div>
+                    <div class="form-group mb-3">
+                        <span>Permisos d'Usuari: </span>
+                        <select class="form-control" name="Permisos d 'usuari" id="modalpermissions">
+                                <option value="0" selected="selected">Deshabilitat</option>
+                                <option value="1">Usuari</option>
+                                <option value="2">Operador</option>
+                                <option value="3">Administrador</option>
+                        </select>
+                    </div>
+                </div>
+                <b class="ml-2" id="errorform"></b>
+                <div class="modal-footer">
+                    <button type="button" id="closeAddBtn" class="btn btn-secondary" data-bs-dismiss="modal">Tancar</button>
+                    <button type="button" id="addUserBtn" class="btn btn-primary">Afegir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal editar usuari -->
+    <div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edita Usuari</h5>
+                </div>
+                <div class="modal-body form-group">
+                    <div class="form-group mb-3">
+                        <span>Nom: </span>
+                        <input class="form-control" type="text" name="modalNameEdit" id="modalNameEdit" placeholder="👤 Nom usuari ...">
+                    </div>
+                    <div class="form-group mb-3">
+                        <span>Correu electrònic: </span>
+                        <input class="form-control" type="text" name="mailModalEdit" id="mailModalEdit" placeholder="📧 Correu electrònic usuari ...">
+                    </div>
+                    <div class="form-group mb-3">
+                        <span>Permisos d'Usuari: </span>
+                        <select class="form-control" name="Permisos d'usuari" id="permissionsModalEdit">
+                                <option value="0">Deshabilitat</option>
+                                <option value="1">Usuari</option>
+                                <option value="2">Operador</option>
+                                <option value="3">Administrador</option>
+                            </select>
+                    </div>
+                    <input type="hidden" id="uidModalEdit" name="uidModalEdit">
+                </div>
+                <b class="ml-2" id="errorform2"></b>
+                <div class="modal-footer">
+                    <button type="button" id="closeEditButton" class="btn btn-secondary" data-bs-dismiss="modal">Tancar</button>
+                    <button type="button" id="editUserBtn" data-bs-dismiss="" class="btn btn-primary">Desa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal autoeditar-se -->
+    <div class="modal fade" id="selfEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Les Teves Dades</h5>
+                </div>
+                <div class="modal-body form-group">
+                    <div class="form-group mb-3">
+                        <span>Nom: </span>
+                        <input class="form-control" type="text" name="nameModalSelfEdit" id="nameModalSelfEdit" placeholder="👤 Nom ...">
+                    </div>
+                    <div class="form-group mb-3">
+                        <span>Correu electrònic: </span>
+                        <input class="form-control" type="text" name="emailModalSelfEdit" id="emailModalSelfEdit" placeholder="📧 Correu electrònic ...">
+                    </div>
+                    <div>
+                        <button onclick="check_email()" value="0" class="btn btn-secondary mb-3">Canviar Contrasenya</button>
+                    </div>
+                    <span id="messageSended"></span>
+                    <input type="hidden" id="uidModalSelfEdit" name="uidModalSelfEdit">
+                </div>
+                <b class="ml-2" id="errorform3"></b>
+                <div class="modal-footer">
+                    <button type="button" id="closeSelfEditBtn" class="btn btn-secondary" data-bs-dismiss="modal">Tancar</button>
+                    <button type="button" id="selfEditBtn" data-bs-dismiss="" class="btn btn-primary">Desa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
